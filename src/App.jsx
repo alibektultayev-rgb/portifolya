@@ -54,7 +54,7 @@ const USER_DATA = {
     email: "alibektultayev@gmail.com",
     phone: "+998 99 280 00 36",
     telegram: "https://t.me/[TELEGRAM_USER]",
-    github: "https://github.com/[GITHUB_USER]",
+    github: "https://github.com/alibektultayev-rgb",
     instagram: "https://instagram.com/[INSTAGRAM_USER]",
     linkedin: "#",
     cvUrl: "#",
@@ -93,7 +93,7 @@ const USER_DATA = {
       title: "Zamonaviy Shaxsiy Portfolio",
       description: "React va Tailwind CSS yordamida yaratilgan, Dark/Light rejimga va to'liq moslashuvchanlikka ega bo'lgan interaktiv portfolio.",
       technologies: ["React", "Tailwind CSS", "Vite", "Lucide Icons"],
-      github: "https://github.com",
+      github: "https://github.com/alibektultayev-rgb/portifolya",
       demo: "https://example.com",
       status: "Tugallangan"
     },
