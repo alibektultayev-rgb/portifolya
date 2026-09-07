@@ -25,10 +25,16 @@ import {
   Copy,
   Check,
   Flame,
-  ArrowRight
+  ArrowRight,
+  Play,
+  Star,
+  Zap,
+  Monitor,
+  ShieldCheck,
+  MessageSquare
 } from 'lucide-react'
 
-// Ijtimoiy tarmoqlar uchun toza SVG ikonalar
+// Ijtimoiy tarmoqlar SVG ikonalar
 const GithubIcon = ({ size = 20, className = "" }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
     <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path>
@@ -51,7 +57,7 @@ const TelegramIcon = ({ size = 20, className = "" }) => (
   </svg>
 )
 
-// ROTATING TYPEWRITER EFFECT COMPONENT
+// Aylanib turuvchi zamonaviy Typewriter komponenti
 const ROTATING_ROLES = [
   "Frontend & Telegram Bot Dasturchi",
   "Full Stack Developer",
@@ -66,14 +72,13 @@ function TypewriterRoles() {
 
   useEffect(() => {
     const fullText = ROTATING_ROLES[roleIndex]
-    const typingSpeed = isDeleting ? 30 : 65
+    const speed = isDeleting ? 28 : 60
 
-    const timeout = setTimeout(() => {
+    const timer = setTimeout(() => {
       if (!isDeleting) {
         if (currentText.length < fullText.length) {
           setCurrentText(fullText.slice(0, currentText.length + 1))
         } else {
-          // Pause when full title is typed
           setTimeout(() => setIsDeleting(true), 2200)
         }
       } else {
@@ -84,82 +89,71 @@ function TypewriterRoles() {
           setRoleIndex((prev) => (prev + 1) % ROTATING_ROLES.length)
         }
       }
-    }, typingSpeed)
+    }, speed)
 
-    return () => clearTimeout(timeout)
+    return () => clearTimeout(timer)
   }, [currentText, isDeleting, roleIndex])
 
   return (
-    <div className="inline-flex items-center min-h-[44px]">
-      <span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent font-extrabold tracking-tight">
+    <div className="inline-flex items-center">
+      <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-pink-400 bg-clip-text text-transparent font-extrabold tracking-tight">
         {currentText}
       </span>
-      <span className="inline-block w-[3px] h-7 sm:h-9 ml-2 bg-indigo-500 dark:bg-indigo-400 animate-pulse rounded-full"></span>
+      <span className="inline-block w-1 sm:w-1.5 h-6 sm:h-8 ml-1.5 bg-indigo-400 shadow-[0_0_12px_#6366f1] animate-pulse rounded-full"></span>
     </div>
   )
 }
 
-// DATA STRUCTURE - ALIBEK TULTAYEV PORTFOLIO MA'LUMOTLARI
+// ASOSIY MA'LUMOTLAR
 const USER_DATA = {
   personal: {
     name: "Alibek Tultayev",
-    title: "Frontend & Telegram Bot Dasturchi | Full Stack Developer",
-    tagline: "Zamonaviy kino platformalari, interaktiv veb-ilovalar hamda avtomatlashtirilgan kuchli Telegram botlarni ishlab chiquvchi dasturchi.",
+    tagline: "Zamonaviy kino platformalari, interaktiv multimedia veb-saytlar va avtomatlashtirilgan aqlli Telegram botlar yaratuvchi professional dasturchi.",
     location: "Sirdaryo viloyati, O'zbekiston",
     email: "alibektultayev@gmail.com",
     phone: "+998 99 280 00 36",
     telegram: "https://t.me/alibektultayev",
+    telegramUsername: "@alibektultayev",
     github: "https://github.com/alibektultayev-rgb",
     instagram: "https://instagram.com/alibektultayev",
     avatarUrl: profileImg,
   },
   stats: [
-    { label: "Frontend & Bot Tajriba", value: "100%", sub: "Yuqori sifat" },
-    { label: "Loyihalar Soni", value: "4+", sub: "Ishlab chiqilgan" },
-    { label: "Asosiy Texnologiyalar", value: "8+", sub: "React, Python, C++" },
-    { label: "Mijozlar Muloqoti", value: "24/7", sub: "Tezkor aloqa" },
+    { label: "Frontend & Botlar", value: "100%", sub: "Yuqori daraja", icon: Zap },
+    { label: "Loyihalar Soni", value: "4+", sub: "Faol va sifatli", icon: Briefcase },
+    { label: "Asosiy Texnologiyalar", value: "8+", sub: "React, Python, C++", icon: Code2 },
+    { label: "Muloqot Tezligi", value: "24/7", sub: "Doimiy onlayn", icon: MessageSquare },
   ],
-  about: {
-    bio: "Salom! Men Alibek Tultayev. Dasturlash olamiga 1-bosqichdan qat'iy intilish bilan qadam qo'yib, dastlab C++ tili va fundamental algoritmik asoslarni chuqur o'rgandim. Hozirda Frontend yo'nalishini to'liq o'zlashtirganman va zamonaviy kino saytlari, veb-platformalar hamda murakkab vazifalarni avtomatlashtiruvchi Telegram botlar yaratish bilan shug'ullanaman.",
-    currentStatus: "IT Live o'quv markazida tahsil olmoqdaman, yangi Frontend loyihalari, kino platformalari va aqlli Telegram botlar ustida faol ishlamoqdaman.",
-    goals: "Frontend ko'nikmalarini Full Stack darajasiga yetkazish, ilg'or backend arxitekturasi hamda kiberxavfsizlik sohasida yetuk mutaxassis bo'lib shakllanish.",
-    strengths: [
-      "Frontend texnologiyalari: HTML, CSS, JavaScript, React.js, Tailwind CSS bilan mukammal ishlash",
-      "Kino portallari va interaktiv multimedia veb-ilovalarini ishlab chiqish",
-      "Avtomatlashtirilgan, qulay va xavfsiz Telegram botlarni yaratish (Python / Telegram API)",
-      "C++ tili orqali dasturlashning mantiqiy va chuqur algoritmik asoslariga ega bo'lish",
-      "Toza kod arxitekturasi, chiroyli UI/UX dizayn va yuqori ishlash tezligi"
-    ]
-  },
   skills: [
-    { name: "React.js & Vite", level: 92, category: "Frontend", icon: "⚛️" },
-    { name: "Tailwind CSS & Responsive UI", level: 95, category: "Frontend", icon: "🎨" },
-    { name: "JavaScript (ES6+) & TypeScript Asoslari", level: 90, category: "Frontend", icon: "⚡" },
-    { name: "HTML5 & Modern CSS3", level: 98, category: "Frontend", icon: "🌐" },
-    { name: "Telegram Bot Development (Python / API)", level: 88, category: "Bot & Backend", icon: "🤖" },
-    { name: "Python (Asinxron Botlar & Skriptlar)", level: 75, category: "Bot & Backend", icon: "🐍" },
-    { name: "REST API & Ma'lumotlar bilan ishlash", level: 85, category: "Bot & Backend", icon: "🔄" },
-    { name: "C++ (Algoritmlar & Ma'lumotlar Tuzilmalari)", level: 82, category: "Asoslar & Tools", icon: "💻" },
-    { name: "Git & GitHub Versiya Nazorati", level: 88, category: "Asoslar & Tools", icon: "🐙" },
+    { name: "React.js & Vite", level: 95, category: "Frontend", icon: "⚛️", color: "from-cyan-500 to-blue-500" },
+    { name: "Tailwind CSS & UI/UX", level: 98, category: "Frontend", icon: "🎨", color: "from-sky-400 to-indigo-500" },
+    { name: "JavaScript (ES6+) & Web APIs", level: 92, category: "Frontend", icon: "⚡", color: "from-amber-400 to-orange-500" },
+    { name: "HTML5 & Zamonaviy CSS3", level: 99, category: "Frontend", icon: "🌐", color: "from-orange-500 to-rose-500" },
+    { name: "Telegram Bot API (Python / Aiogram)", level: 90, category: "Bot & Backend", icon: "🤖", color: "from-emerald-400 to-teal-500" },
+    { name: "Python (Skriptlar & Avtomatika)", level: 80, category: "Bot & Backend", icon: "🐍", color: "from-blue-500 to-indigo-600" },
+    { name: "REST API & Asinxron So'rovlar", level: 88, category: "Bot & Backend", icon: "🔄", color: "from-violet-500 to-purple-600" },
+    { name: "C++ (Algoritmlar & Mantiq)", level: 85, category: "Asoslar", icon: "💻", color: "from-pink-500 to-rose-600" },
+    { name: "Git & GitHub Versiya Nazorati", level: 90, category: "Asoslar", icon: "🐙", color: "from-fuchsia-500 to-indigo-500" },
   ],
   projects: [
     {
-      id: 1,
-      title: "Kino Sayt (Onlayn Film & Seriallar Platformasi)",
-      category: "frontend",
+      id: "kino-sayt",
+      title: "Kino Sayt — Onlayn Film & Seriallar Platformasi",
+      category: "kino",
       featured: true,
-      badge: "Eng So'nggi Loyiha",
-      description: "Zamonaviy kino qidiruv tizimi, film va seriallar katalogi, janrlar bo'yicha saralash, film treylerlari va tavsiflarini taqdim etuvchi yuqori sifatli kino platformasi.",
-      technologies: ["React", "JavaScript", "Tailwind CSS", "REST API", "Vite"],
+      badge: "Flagship / Asosiy Loyiha",
+      description: "Zamonaviy kino qidiruv tizimi, film va seriallar katalogi, janrlar bo'yicha saralash, HD treylerlar va to'liq moslashuvchan kino ko'rish interfeysiga ega zamonaviy kino portali.",
+      technologies: ["React", "JavaScript", "Tailwind CSS", "REST API", "Vite", "Lucide Icons"],
       github: "https://github.com/alibektultayev-rgb/kino-sayt",
       demo: "https://github.com/alibektultayev-rgb/kino-sayt",
       gitClone: "git@github.com:alibektultayev-rgb/kino-sayt.git",
       status: "Yangi loyiha",
-      icon: Film
+      icon: Film,
+      accentGradient: "from-rose-500 via-purple-600 to-indigo-600"
     },
     {
-      id: 2,
-      title: "Zamonaviy Shaxsiy Portfolio",
+      id: "portfolio",
+      title: "Zamonaviy Shaxsiy Portfolio Platformasi",
       category: "frontend",
       featured: false,
       badge: "Portfolio",
@@ -169,42 +163,46 @@ const USER_DATA = {
       demo: "https://github.com/alibektultayev-rgb/portifolya",
       gitClone: "git@github.com:alibektultayev-rgb/portifolya.git",
       status: "Tugallangan",
-      icon: Code2
+      icon: Code2,
+      accentGradient: "from-indigo-500 to-cyan-500"
     },
     {
-      id: 3,
+      id: "telegram-bot",
       title: "Avtomatlashtirilgan Aqlli Telegram Bot",
       category: "bot",
       featured: false,
       badge: "Telegram Bot",
-      description: "Foydalanuvchilar bilan 24/7 muloqot qiluvchi, buyurtmalarni qabul qiluvchi, inline tugmalar va xabarnomalar tizimiga ega ko'p funksiyali Telegram bot.",
+      description: "Foydalanuvchilar bilan 24/7 muloqot qiluvchi, buyurtmalarni qabul qiluvchi, inline interaktiv tugmalar va xabarnomalar tizimiga ega ko'p funksiyali Telegram bot.",
       technologies: ["Python", "Telegram Bot API", "Aiogram", "SQLite"],
       github: "https://github.com/alibektultayev-rgb",
       demo: "https://t.me/alibektultayev",
+      gitClone: "https://github.com/alibektultayev-rgb",
       status: "Faol",
-      icon: Bot
+      icon: Bot,
+      accentGradient: "from-emerald-500 to-teal-500"
     },
     {
-      id: 4,
+      id: "cpp-algorithms",
       title: "C++ Algoritmik Tizimlar & Masalalar",
       category: "cpp",
       featured: false,
       badge: "Algoritmlar",
-      description: "Dasturlash asoslari va chuqur algoritmik mantiq: qidiruv, saralash, ma'lumotlar tuzilmalari va mantiqiy hisoblash algoritmlari to'plami.",
+      description: "Dasturlash asoslari va chuqur algoritmik mantiq: qidiruv, saralash, ma'lumotlar tuzilmalari va murakkab hisoblash algoritmlari to'plami.",
       technologies: ["C++", "Algoritmlar", "Data Structures", "OOP"],
       github: "https://github.com/alibektultayev-rgb",
       demo: "https://github.com/alibektultayev-rgb",
+      gitClone: "https://github.com/alibektultayev-rgb",
       status: "Faol",
-      icon: Terminal
+      icon: Terminal,
+      accentGradient: "from-amber-500 to-orange-500"
     }
   ],
   timeline: [
     {
-      type: "education",
       title: "Frontend Dasturchi & Dasturlash Asoslari",
       organization: "IT Live o'quv markazi",
       period: "2026 - Hozirgacha",
-      description: "1-bosqichdan boshlab IT Live da C++ tili, algoritmik mantiq va dasturlash asoslarini puxta o'rgandim. Hozirda Frontend texnologiyalarini (HTML, CSS, JavaScript, React, Tailwind) to'liq o'rganib chiqdim va Telegram botlar yaratishda faol qo'llayapman."
+      description: "1-bosqichdan boshlab IT Live da C++ tili, algoritmik mantiq va dasturlash asoslarini o'rgandim. Hozirda Frontend texnologiyalarini (HTML, CSS, JavaScript, React, Tailwind) mukammal o'zlashtirgan holda Telegram botlar va kino saytlari yaratmoqdaman."
     }
   ],
   certificates: [
@@ -220,8 +218,8 @@ const USER_DATA = {
 export default function App() {
   const [darkMode, setDarkMode] = useState(true)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [activeProjectFilter, setActiveProjectFilter] = useState('all')
-  const [copiedClone, setCopiedClone] = useState(null)
+  const [activeFilter, setActiveFilter] = useState('all')
+  const [copiedId, setCopiedId] = useState(null)
   const [formSubmitted, setFormSubmitted] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
@@ -230,7 +228,7 @@ export default function App() {
     message: ''
   })
 
-  // Dark/light mode sinflarini root elementga ulash
+  // Dark/light mode boshqaruvi
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add('dark')
@@ -239,8 +237,10 @@ export default function App() {
     }
   }, [darkMode])
 
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
+  const copyToClipboard = (text, id) => {
+    navigator.clipboard.writeText(text)
+    setCopiedId(id)
+    setTimeout(() => setCopiedId(null), 2500)
   }
 
   const handleFormSubmit = (e) => {
@@ -252,109 +252,107 @@ export default function App() {
     }, 4000)
   }
 
-  const copyToClipboard = (text, id) => {
-    navigator.clipboard.writeText(text)
-    setCopiedClone(id)
-    setTimeout(() => setCopiedClone(null), 2500)
-  }
+  const filteredProjects = USER_DATA.projects.filter(p => {
+    if (activeFilter === 'all') return true
+    if (activeFilter === 'kino') return p.category === 'kino' || p.category === 'frontend'
+    return p.category === activeFilter
+  })
 
   const navLinks = [
     { name: "Bosh sahifa", href: "#home" },
+    { name: "Loyiha (Kino)", href: "#featured-kino" },
+    { name: "Loyihalarim", href: "#projects" },
     { name: "Men haqimda", href: "#about" },
     { name: "Ko'nikmalar", href: "#skills" },
-    { name: "Loyihalarim", href: "#projects" },
-    { name: "Tajriba", href: "#experience" },
-    { name: "Aloqa", href: "#contact" },
+    { name: "Bog'lanish", href: "#contact" },
   ]
 
-  const filteredProjects = USER_DATA.projects.filter(p => {
-    if (activeProjectFilter === 'all') return true
-    return p.category === activeProjectFilter
-  })
-
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-[#090d16] dark:text-slate-100 transition-colors duration-300 selection:bg-indigo-500 selection:text-white relative overflow-x-hidden">
+    <div className="min-h-screen bg-[#030712] text-slate-100 selection:bg-indigo-500 selection:text-white relative overflow-x-hidden">
       
-      {/* Background Decorative Pattern */}
-      <div className="fixed inset-0 pointer-events-none z-0 opacity-40 dark:opacity-25 bg-[radial-gradient(#6366f1_1px,transparent_1px)] [background-size:24px_24px]"></div>
+      {/* 1. FUTURISTIC BACKGROUND LIGHTING */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        {/* Subtle grid mesh */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f293715_1px,transparent_1px),linear-gradient(to_bottom,#1f293715_1px,transparent_1px)] bg-[size:36px_36px]"></div>
+        
+        {/* Glowing Aurora Lights */}
+        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[700px] h-[450px] bg-gradient-to-tr from-indigo-600/25 via-purple-600/20 to-pink-600/15 rounded-full blur-[140px] animate-pulse-glow"></div>
+        <div className="absolute top-[40%] -left-32 w-[500px] h-[500px] bg-blue-600/15 rounded-full blur-[150px] animate-pulse-glow"></div>
+        <div className="absolute top-[70%] -right-32 w-[550px] h-[550px] bg-violet-600/15 rounded-full blur-[160px] animate-pulse-glow"></div>
+      </div>
 
-      {/* Ambient Glowing Orbs */}
-      <div className="fixed top-0 left-1/4 w-96 h-96 bg-indigo-500/15 dark:bg-indigo-600/20 rounded-full blur-[120px] pointer-events-none animate-pulse-glow"></div>
-      <div className="fixed bottom-1/4 right-10 w-96 h-96 bg-violet-500/15 dark:bg-fuchsia-600/15 rounded-full blur-[130px] pointer-events-none animate-pulse-glow"></div>
+      {/* 2. FLOATING GLASS NAVBAR */}
+      <header className="sticky top-4 z-50 max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="glass-panel rounded-full px-4 sm:px-6 py-3 flex items-center justify-between shadow-[0_10px_35px_-5px_rgba(0,0,0,0.5)] border border-white/10 backdrop-blur-2xl">
+          
+          {/* Logo & Status */}
+          <a href="#home" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center text-white font-black text-xl shadow-[0_0_20px_rgba(99,102,241,0.5)] group-hover:scale-105 group-hover:rotate-3 transition-transform">
+              A
+            </div>
+            <div className="hidden sm:flex flex-col">
+              <span className="font-extrabold text-sm tracking-tight text-white flex items-center gap-1.5">
+                {USER_DATA.personal.name}
+                <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] animate-pulse"></span>
+              </span>
+              <span className="text-[10px] text-indigo-400 font-semibold tracking-wider uppercase">
+                Frontend & Bot Dev
+              </span>
+            </div>
+          </a>
 
-      {/* 1. NAVIGATION BAR */}
-      <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/80 dark:bg-[#090d16]/80 border-b border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 sm:h-20">
-            
-            {/* Logo */}
-            <a href="#home" className="flex items-center gap-3 group">
-              <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-indigo-600 via-violet-600 to-pink-500 flex items-center justify-center text-white font-black text-xl shadow-lg shadow-indigo-500/25 group-hover:scale-105 group-hover:rotate-3 transition-all duration-300">
-                A
-              </div>
-              <div className="flex flex-col">
-                <span className="font-extrabold text-lg tracking-tight bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-200 bg-clip-text text-transparent group-hover:text-indigo-500 transition-colors">
-                  {USER_DATA.personal.name}
-                </span>
-                <span className="text-[11px] font-semibold text-indigo-600 dark:text-indigo-400 tracking-wider uppercase">
-                  Frontend & Bot Dev
-                </span>
-              </div>
+          {/* Desktop Navigation Links */}
+          <nav className="hidden md:flex items-center gap-1">
+            {navLinks.map((link) => (
+              <a
+                key={link.name}
+                href={link.href}
+                className="px-3.5 py-1.5 rounded-full text-xs font-semibold text-slate-300 hover:text-white hover:bg-white/10 transition-all duration-200"
+              >
+                {link.name}
+              </a>
+            ))}
+          </nav>
+
+          {/* Right Action: Telegram & Theme Toggle */}
+          <div className="flex items-center gap-2.5">
+            <a
+              href={USER_DATA.personal.telegram}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold text-white bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 shadow-[0_0_20px_rgba(14,165,233,0.4)] hover:shadow-[0_0_25px_rgba(14,165,233,0.6)] hover:-translate-y-0.5 transition-all cursor-pointer"
+            >
+              <TelegramIcon size={15} />
+              <span className="hidden xs:inline">Telegramda yozish</span>
             </a>
 
-            {/* Desktop Navigation Links */}
-            <nav className="hidden md:flex items-center gap-1.5 p-1 rounded-2xl bg-slate-100/70 dark:bg-slate-900/70 border border-slate-200/60 dark:border-slate-800/60 backdrop-blur-md">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className="px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800/80 shadow-none hover:shadow-sm transition-all duration-200"
-                >
-                  {link.name}
-                </a>
-              ))}
-            </nav>
+            <button
+              onClick={() => setDarkMode(!darkMode)}
+              className="p-2 rounded-full bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors border border-white/10"
+              title={darkMode ? "Yorug' rejim" : "Tungi rejim"}
+            >
+              {darkMode ? <Sun size={17} className="text-amber-400" /> : <Moon size={17} className="text-indigo-400" />}
+            </button>
 
-            {/* Right Action: Theme toggle + Contact button */}
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => setDarkMode(!darkMode)}
-                className="p-2.5 rounded-2xl border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-900 text-slate-700 dark:text-slate-300 transition-all cursor-pointer shadow-sm hover:scale-105"
-                title={darkMode ? "Yorug' rejim" : "Tungi rejim"}
-                aria-label="Toggle Dark Mode"
-              >
-                {darkMode ? <Sun size={19} className="text-amber-400" /> : <Moon size={19} className="text-indigo-600" />}
-              </button>
-
-              <a
-                href="#contact"
-                className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-2xl bg-gradient-to-r from-indigo-600 via-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white shadow-lg shadow-indigo-600/25 hover:shadow-indigo-600/40 hover:-translate-y-0.5 transition-all cursor-pointer"
-              >
-                <span>Bog'lanish</span>
-                <ChevronRight size={16} />
-              </a>
-
-              {/* Mobile menu button */}
-              <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="md:hidden p-2.5 rounded-2xl border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-900 text-slate-700 dark:text-slate-300"
-                aria-label="Menu"
-              >
-                {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-              </button>
-            </div>
+            {/* Mobile menu toggle */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2 rounded-full bg-slate-800/80 text-slate-300"
+            >
+              {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+            </button>
           </div>
         </div>
 
-        {/* Mobile Dropdown Menu */}
+        {/* Mobile Dropdown */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-b border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-[#090d16]/95 backdrop-blur-2xl px-4 pt-3 pb-6 space-y-2">
+          <div className="md:hidden mt-2 glass-panel rounded-3xl p-4 space-y-1 border border-white/10 shadow-2xl">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-4 py-3 rounded-xl text-base font-semibold text-slate-700 dark:text-slate-200 hover:bg-indigo-50 dark:hover:bg-slate-900 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                className="block px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-200 hover:bg-white/10 hover:text-indigo-400 transition-colors"
               >
                 {link.name}
               </a>
@@ -363,176 +361,169 @@ export default function App() {
               <a
                 href="#contact"
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-semibold shadow-md shadow-indigo-600/30"
+                className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-indigo-600 text-white font-bold text-xs shadow-lg"
               >
                 <span>Bog'lanish</span>
-                <ChevronRight size={18} />
+                <ChevronRight size={15} />
               </a>
             </div>
           </div>
         )}
       </header>
 
-      {/* 2. HERO SECTION */}
-      <section id="home" className="relative pt-12 pb-24 md:pt-20 md:pb-32 overflow-hidden z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 3. HERO SECTION (HIGH IMPACT) */}
+      <section id="home" className="relative pt-14 pb-20 sm:pt-24 sm:pb-32 z-10">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
             
-            {/* Chap tomondagi matn qismi */}
+            {/* Left Column: Heading & Typewriter */}
             <div className="lg:col-span-7 text-center lg:text-left space-y-6">
               
-              {/* Ochiqlik holati belgisi */}
-              <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full text-xs font-semibold bg-emerald-500/10 dark:bg-emerald-500/15 border border-emerald-500/25 text-emerald-700 dark:text-emerald-300 shadow-sm">
+              {/* Neon Radar Pill */}
+              <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-xs font-semibold bg-indigo-950/60 border border-indigo-500/30 text-indigo-300 shadow-[0_0_20px_rgba(99,102,241,0.2)]">
                 <span className="relative flex h-2.5 w-2.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400 shadow-[0_0_8px_#34d399]"></span>
                 </span>
                 <span>Yangi loyihalar & jamoalar uchun ochiqman</span>
               </div>
 
-              {/* Asosiy Sarlavha & Ism */}
-              <div className="space-y-2">
-                <p className="text-lg sm:text-xl font-semibold text-slate-600 dark:text-slate-400">
+              {/* Main Name */}
+              <div className="space-y-1">
+                <p className="text-sm sm:text-base font-semibold text-slate-400 tracking-wide uppercase">
                   Assalomu alaykum, men
                 </p>
-                <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1]">
-                  <span className="bg-gradient-to-r from-slate-900 via-indigo-900 to-slate-800 dark:from-white dark:via-slate-100 dark:to-slate-300 bg-clip-text text-transparent">
+                <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.08] text-white">
+                  <span className="bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent">
                     {USER_DATA.personal.name}
                   </span>
                 </h1>
               </div>
 
-              {/* ROTATING TITLE / TYPEWRITER EFFECT */}
-              <div className="flex items-center justify-center lg:justify-start text-xl sm:text-2xl lg:text-3xl font-bold text-slate-700 dark:text-slate-200 min-h-[48px]">
-                <TypewriterRoles />
+              {/* ROTATING TYPEWRITER BANNER (THE MAIN REQUIREMENT) */}
+              <div className="p-3.5 sm:p-4 rounded-2xl glass-panel border border-indigo-500/30 shadow-[0_0_30px_rgba(99,102,241,0.15)] flex items-center justify-center lg:justify-start gap-3">
+                <div className="w-8 h-8 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-mono font-bold text-sm shrink-0 border border-indigo-500/30">
+                  &gt;_
+                </div>
+                <div className="text-lg sm:text-2xl font-bold">
+                  <TypewriterRoles />
+                </div>
               </div>
 
-              {/* Tavsif matni */}
-              <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-xl mx-auto lg:mx-0 leading-relaxed font-normal">
+              {/* Tagline */}
+              <p className="text-base sm:text-lg text-slate-300 max-w-xl mx-auto lg:mx-0 leading-relaxed font-normal">
                 {USER_DATA.personal.tagline}
               </p>
 
-              {/* Mini Texnologiya Nishonlari */}
+              {/* Interactive Quick Tech Pills */}
               <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 pt-1">
-                {["React.js", "Kino Saytlar", "Telegram Bot API", "Tailwind CSS", "Python", "C++"].map((badge, idx) => (
+                {[
+                  { label: "React 19", icon: "⚛️" },
+                  { label: "Kino Platformalari", icon: "🎬" },
+                  { label: "Telegram Bot API", icon: "🤖" },
+                  { label: "Tailwind CSS", icon: "🎨" },
+                  { label: "Python", icon: "🐍" },
+                  { label: "C++", icon: "⚡" },
+                ].map((item, i) => (
                   <span
-                    key={idx}
-                    className="text-xs font-semibold px-3 py-1 rounded-xl bg-slate-100 dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 text-slate-700 dark:text-slate-300 shadow-sm hover:border-indigo-500/50 transition-colors"
+                    key={i}
+                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-medium bg-slate-900/80 border border-white/10 text-slate-300 hover:border-indigo-500/50 hover:text-white transition-colors"
                   >
-                    {badge}
+                    <span>{item.icon}</span>
+                    <span>{item.label}</span>
                   </span>
                 ))}
               </div>
 
-              {/* Asosiy Tugmalar */}
+              {/* CTA Action Buttons */}
               <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-3">
                 <a
-                  href="#projects"
-                  className="px-6 sm:px-8 py-3.5 rounded-2xl bg-gradient-to-r from-indigo-600 via-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold shadow-xl shadow-indigo-600/30 hover:shadow-indigo-600/50 hover:-translate-y-0.5 transition-all flex items-center gap-2 cursor-pointer"
+                  href="#featured-kino"
+                  className="px-7 py-3.5 rounded-2xl bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500 hover:from-indigo-400 hover:to-pink-400 text-white font-bold text-sm shadow-[0_0_30px_rgba(99,102,241,0.4)] hover:shadow-[0_0_40px_rgba(236,72,153,0.6)] hover:-translate-y-0.5 transition-all flex items-center gap-2.5 cursor-pointer"
                 >
-                  <Briefcase size={19} />
-                  <span>Loyihalarimni ko'rish</span>
-                  <ArrowRight size={17} />
+                  <Film size={18} />
+                  <span>Kino Saytini ko'rish</span>
+                  <ArrowRight size={16} />
                 </a>
 
                 <a
-                  href="#contact"
-                  className="px-6 sm:px-7 py-3.5 rounded-2xl bg-white dark:bg-slate-900/80 border border-slate-300 dark:border-slate-800 hover:border-indigo-500/60 dark:hover:border-indigo-500/60 text-slate-800 dark:text-slate-200 font-semibold shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all flex items-center gap-2 cursor-pointer"
+                  href={USER_DATA.personal.telegram}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="px-6 py-3.5 rounded-2xl glass-panel border border-sky-500/40 hover:border-sky-400 text-sky-300 hover:text-white font-bold text-sm shadow-[0_0_20px_rgba(14,165,233,0.2)] hover:-translate-y-0.5 transition-all flex items-center gap-2 cursor-pointer"
                 >
-                  <Send size={18} className="text-indigo-500" />
-                  <span>Bog'lanish</span>
+                  <TelegramIcon size={18} />
+                  <span>Telegramda yozish</span>
+                </a>
+
+                <a
+                  href={USER_DATA.personal.github}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="p-3.5 rounded-2xl glass-panel border border-white/10 hover:border-white/30 text-slate-300 hover:text-white transition-all shadow-sm hover:scale-105"
+                  title="GitHub Repozitoriyalar"
+                >
+                  <GithubIcon size={19} />
+                </a>
+
+                <a
+                  href={USER_DATA.personal.instagram}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="p-3.5 rounded-2xl glass-panel border border-white/10 hover:border-pink-500/40 text-slate-300 hover:text-pink-400 transition-all shadow-sm hover:scale-105"
+                  title="Instagram profil"
+                >
+                  <InstagramIcon size={19} />
                 </a>
               </div>
 
-              {/* Ijtimoiy tarmoqlar */}
-              <div className="pt-2 flex items-center justify-center lg:justify-start gap-4 text-slate-500 dark:text-slate-400">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Tezkor aloqa:</span>
-                <div className="flex gap-2">
-                  <a
-                    href={USER_DATA.personal.telegram}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/90 text-slate-700 dark:text-slate-300 hover:text-white hover:bg-[#229ED9] hover:border-[#229ED9] dark:hover:bg-[#229ED9] dark:hover:border-[#229ED9] transition-all shadow-sm hover:scale-105"
-                    title="Telegram orqali yozish"
-                  >
-                    <TelegramIcon size={19} />
-                  </a>
-                  <a
-                    href={USER_DATA.personal.github}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/90 text-slate-700 dark:text-slate-300 hover:text-white hover:bg-slate-900 hover:border-slate-900 dark:hover:bg-indigo-600 dark:hover:border-indigo-600 transition-all shadow-sm hover:scale-105"
-                    title="GitHub profil"
-                  >
-                    <GithubIcon size={19} />
-                  </a>
-                  <a
-                    href={USER_DATA.personal.instagram}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/90 text-slate-700 dark:text-slate-300 hover:text-white hover:bg-gradient-to-tr hover:from-amber-500 hover:via-pink-500 hover:to-purple-600 hover:border-pink-500 transition-all shadow-sm hover:scale-105"
-                    title="Instagram profil"
-                  >
-                    <InstagramIcon size={19} />
-                  </a>
-                </div>
-              </div>
             </div>
 
-            {/* O'ng tomondagi zamonaviy rasm kartasi va suzuvchi nishonlar */}
+            {/* Right Column: High-Tech Avatar Showcase */}
             <div className="lg:col-span-5 flex justify-center relative">
               
-              {/* Orqa fon porlashi */}
-              <div className="absolute -inset-2 bg-gradient-to-tr from-indigo-600 via-violet-600 to-pink-500 rounded-[2.5rem] blur-2xl opacity-40 dark:opacity-50 animate-pulse-glow"></div>
+              {/* Spinning gradient ring */}
+              <div className="absolute -inset-4 bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 rounded-[3rem] blur-2xl opacity-40 animate-pulse-glow"></div>
 
-              {/* Asosiy Rasm Konteyneri */}
-              <div className="relative w-80 sm:w-96 h-[440px] sm:h-[490px] rounded-[2.2rem] bg-gradient-to-b from-white/90 to-slate-100/90 dark:from-slate-900/90 dark:to-[#0c121e]/95 p-3.5 border-2 border-indigo-500/20 dark:border-indigo-500/30 shadow-2xl backdrop-blur-xl flex flex-col items-center justify-center overflow-hidden group">
+              {/* Avatar Box */}
+              <div className="relative w-72 sm:w-88 h-[420px] sm:h-[480px] rounded-[2.5rem] bg-gradient-to-b from-slate-900/90 to-slate-950 p-3 border border-white/15 shadow-2xl backdrop-blur-2xl flex flex-col items-center justify-center overflow-hidden group">
                 
-                {USER_DATA.personal.avatarUrl ? (
-                  <div className="w-full h-full rounded-[1.8rem] overflow-hidden relative">
-                    <img
-                      src={USER_DATA.personal.avatarUrl}
-                      alt={USER_DATA.personal.name}
-                      className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700 ease-out"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60"></div>
-                  </div>
-                ) : (
-                  <div className="w-full h-full rounded-[1.8rem] bg-gradient-to-b from-indigo-500/10 via-slate-900 to-slate-950 flex flex-col items-center justify-center p-6 text-center border border-indigo-500/20">
-                    <div className="w-24 h-24 rounded-full bg-indigo-600/20 border border-indigo-500/40 flex items-center justify-center text-indigo-400 mb-4">
-                      <User size={48} />
-                    </div>
-                    <h4 className="font-bold text-slate-100 text-lg">{USER_DATA.personal.name}</h4>
-                    <p className="text-xs text-indigo-300 mt-1">Dasturchi</p>
-                  </div>
-                )}
+                {/* Profile Photo */}
+                <div className="w-full h-full rounded-[2rem] overflow-hidden relative border border-white/10">
+                  <img
+                    src={USER_DATA.personal.avatarUrl}
+                    alt={USER_DATA.personal.name}
+                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700 ease-out"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-70"></div>
+                </div>
 
-                {/* Suzuvchi Kartochka 1: Top Right */}
-                <div className="absolute top-6 -right-4 sm:-right-6 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-slate-200/80 dark:border-slate-700/80 shadow-2xl px-4 py-2.5 rounded-2xl flex items-center gap-3 animate-float">
-                  <div className="w-9 h-9 rounded-xl bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold">
-                    <Film size={18} />
+                {/* Floating Widget 1: Top-Left (Kino Sayt) */}
+                <div className="absolute top-5 -left-4 sm:-left-6 glass-panel border border-rose-500/30 px-3.5 py-2 rounded-2xl flex items-center gap-2.5 shadow-2xl animate-float">
+                  <div className="w-8 h-8 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center font-bold">
+                    <Film size={16} />
                   </div>
                   <div>
-                    <div className="text-[10px] uppercase font-bold text-slate-400">Yangi Loyiha</div>
-                    <div className="text-xs font-bold text-slate-800 dark:text-slate-200">Kino Sayt Platformasi</div>
+                    <div className="text-[10px] uppercase font-bold text-rose-300">Yangi Loyiha</div>
+                    <div className="text-xs font-bold text-white">Kino Sayt Platformasi</div>
                   </div>
                 </div>
 
-                {/* Suzuvchi Kartochka 2: Bottom Left */}
-                <div className="absolute bottom-6 -left-4 sm:-left-6 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-slate-200/80 dark:border-slate-700/80 shadow-2xl px-4 py-2.5 rounded-2xl flex items-center gap-3 animate-float-reverse">
-                  <div className="w-9 h-9 rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold">
-                    <Bot size={18} />
+                {/* Floating Widget 2: Bottom-Right (Telegram Bot) */}
+                <div className="absolute bottom-6 -right-4 sm:-right-6 glass-panel border border-emerald-500/30 px-3.5 py-2 rounded-2xl flex items-center gap-2.5 shadow-2xl animate-float-reverse">
+                  <div className="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
+                    <Bot size={16} />
                   </div>
                   <div>
-                    <div className="text-[10px] uppercase font-bold text-slate-400">Avtomatlashtirish</div>
-                    <div className="text-xs font-bold text-slate-800 dark:text-slate-200">Telegram Botlar</div>
+                    <div className="text-[10px] uppercase font-bold text-emerald-300">Avtomatlashtirish</div>
+                    <div className="text-xs font-bold text-white">Telegram Botlar</div>
                   </div>
                 </div>
 
-                {/* Suzuvchi Kartochka 3: Center Bottom Badge */}
-                <div className="absolute bottom-3 bg-slate-900/85 backdrop-blur-md border border-white/10 px-4 py-1.5 rounded-full flex items-center gap-2 text-xs font-semibold text-white shadow-lg">
-                  <Sparkles size={14} className="text-amber-400 animate-spin" />
-                  <span>Frontend & Telegram Bot</span>
+                {/* Bottom Center Status Pill */}
+                <div className="absolute bottom-3 glass-panel border border-white/15 px-4 py-1.5 rounded-full flex items-center gap-2 text-xs font-bold text-white shadow-xl">
+                  <Star size={13} className="text-amber-400 fill-amber-400 animate-spin-slow" />
+                  <span>100% Sifatli Kod & Natija</span>
                 </div>
 
               </div>
@@ -543,229 +534,286 @@ export default function App() {
         </div>
       </section>
 
-      {/* STATISTIKA BLOKI */}
-      <section className="py-8 relative z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 4. STATISTIKA RAQAMLARI */}
+      <section className="py-6 relative z-10">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-            {USER_DATA.stats.map((stat, i) => (
-              <div
-                key={i}
-                className="p-5 sm:p-6 rounded-3xl bg-white/70 dark:bg-slate-900/60 border border-slate-200/70 dark:border-slate-800/80 backdrop-blur-xl hover:border-indigo-500/40 transition-all duration-300 shadow-sm hover:shadow-lg group"
-              >
-                <div className="text-3xl sm:text-4xl font-black bg-gradient-to-r from-indigo-600 via-violet-600 to-pink-500 bg-clip-text text-transparent group-hover:scale-105 transition-transform origin-left">
-                  {stat.value}
+            {USER_DATA.stats.map((stat, i) => {
+              const Icon = stat.icon
+              return (
+                <div
+                  key={i}
+                  className="glass-panel p-5 sm:p-6 rounded-3xl border border-white/10 hover:border-indigo-500/50 transition-all duration-300 shadow-lg group"
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-3xl sm:text-4xl font-black bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent group-hover:scale-105 transition-transform origin-left">
+                      {stat.value}
+                    </span>
+                    <div className="w-8 h-8 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center">
+                      <Icon size={17} />
+                    </div>
+                  </div>
+                  <div className="text-sm font-bold text-white">
+                    {stat.label}
+                  </div>
+                  <div className="text-xs text-slate-400 mt-0.5">
+                    {stat.sub}
+                  </div>
                 </div>
-                <div className="text-sm font-bold text-slate-800 dark:text-slate-200 mt-2">
-                  {stat.label}
-                </div>
-                <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                  {stat.sub}
-                </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </section>
 
-      {/* 3. MEN HAQIMDA (ABOUT ME) */}
-      <section id="about" className="py-20 bg-slate-100/70 dark:bg-slate-900/40 border-y border-slate-200/80 dark:border-slate-800/80 relative z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 5. BLOCKBUSTER SHOWCASE: "KINO SAYT" (THE SPECIAL PROJECT USER ASKED FOR) */}
+      <section id="featured-kino" className="py-20 relative z-10">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
           
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200/60 dark:border-indigo-800/60 mb-3">
-              <User size={13} />
-              <span>Tanishuv</span>
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-rose-400 bg-rose-950/50 border border-rose-500/30 mb-3 shadow-[0_0_15px_rgba(244,63,94,0.2)]">
+              <Flame size={14} className="text-rose-400 animate-pulse" />
+              <span>Flagship Loyiha</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-              Men Haqimda
+            <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-white">
+              Kino Sayt Platformasi
             </h2>
-            <div className="w-16 h-1 bg-gradient-to-r from-indigo-500 to-pink-500 mx-auto mt-3 rounded-full"></div>
-            <p className="text-slate-600 dark:text-slate-400 mt-4 text-sm sm:text-base">
-              Dasturlash sohasidagi yo'nalishim, qiziqishlarim va texnologik tajribam
+            <div className="w-20 h-1 bg-gradient-to-r from-rose-500 via-purple-500 to-indigo-500 mx-auto mt-4 rounded-full"></div>
+            <p className="text-slate-300 mt-4 text-sm sm:text-base">
+              Har qanday qurilmaga moslashuvchan, yuqori tezlikda ishlovchi zamonaviy kino va seriallar portali
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+          {/* Cinematic Browser Mockup Card */}
+          <div className="rounded-3xl border border-rose-500/40 bg-gradient-to-b from-slate-900/90 via-[#0a0f1d] to-[#040711] shadow-[0_0_50px_-10px_rgba(244,63,94,0.2)] overflow-hidden">
             
-            {/* Chap tomondagi Bio & Maqsadlar */}
-            <div className="lg:col-span-7 space-y-6 flex flex-col justify-between">
-              <div className="bg-white dark:bg-slate-900/80 p-8 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-5">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-2xl bg-indigo-600/10 dark:bg-indigo-400/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold">
-                    <User size={24} />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-slate-900 dark:text-white">
-                      Kasbiy Yondashuv va Dasturlash Falsafasi
-                    </h3>
-                    <p className="text-xs text-indigo-600 dark:text-indigo-400 font-semibold">
-                      Alibek Tultayev — Dasturchi
-                    </p>
-                  </div>
-                </div>
-
-                <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-base">
-                  {USER_DATA.about.bio}
-                </p>
-
-                <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/70 dark:border-slate-800/80">
-                  <p className="text-sm text-slate-600 dark:text-slate-300">
-                    <strong className="text-slate-900 dark:text-white">Faoliyat sohasi:</strong> {USER_DATA.about.currentStatus}
-                  </p>
-                </div>
+            {/* Browser Top Window Bar */}
+            <div className="px-5 py-3.5 bg-slate-950 border-b border-white/10 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="w-3 h-3 rounded-full bg-rose-500"></span>
+                <span className="w-3 h-3 rounded-full bg-amber-500"></span>
+                <span className="w-3 h-3 rounded-full bg-emerald-500"></span>
+                <span className="ml-3 text-xs font-mono text-slate-400 hidden sm:inline">kino-sayt (v1.0)</span>
               </div>
-
-              {/* Maqsad va Intilishlar */}
-              <div className="bg-white dark:bg-slate-900/80 p-8 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-violet-600/10 dark:bg-violet-400/10 text-violet-600 dark:text-violet-400 flex items-center justify-center font-bold">
-                    <Sparkles size={20} />
-                  </div>
-                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">
-                    Kelgusidagi Asosiy Maqsadlarim
-                  </h4>
-                </div>
-                <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-sm sm:text-base pl-2">
-                  {USER_DATA.about.goals}
-                </p>
+              <div className="px-4 py-1 rounded-xl bg-slate-900 text-[11px] font-mono text-slate-400 border border-white/5 flex items-center gap-2">
+                <span className="text-emerald-400">https://</span>github.com/alibektultayev-rgb/kino-sayt
+              </div>
+              <div className="flex items-center gap-2 text-xs text-rose-400 font-bold">
+                <Sparkles size={14} />
+                <span>HD CINEMA</span>
               </div>
             </div>
 
-            {/* Kuchli tomonlar */}
-            <div className="lg:col-span-5 flex flex-col">
-              <div className="bg-white dark:bg-slate-900/80 p-8 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm h-full flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-10 h-10 rounded-xl bg-pink-600/10 dark:bg-pink-400/10 text-pink-600 dark:text-pink-400 flex items-center justify-center font-bold">
-                      <CheckCircle2 size={20} />
-                    </div>
-                    <h4 className="text-lg font-bold text-slate-900 dark:text-white">
-                      Kuchli Tomonlarim & Afzalliklar
-                    </h4>
-                  </div>
-
-                  <ul className="space-y-4">
-                    {USER_DATA.about.strengths.map((item, idx) => (
-                      <li key={idx} className="flex items-start gap-3.5 text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
-                        <span className="w-6 h-6 rounded-lg bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
-                          <CheckCircle2 size={15} />
-                        </span>
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
+            {/* Inner Content Grid */}
+            <div className="p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              
+              {/* Left Column: Details & Clone Command */}
+              <div className="lg:col-span-7 space-y-6">
+                <div className="flex items-center gap-2.5">
+                  <span className="px-3 py-1 rounded-xl text-xs font-extrabold bg-gradient-to-r from-rose-500 to-purple-600 text-white shadow-md">
+                    🔥 Eng So'nggi Loyiha
+                  </span>
+                  <span className="px-3 py-1 rounded-xl text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                    React & REST API
+                  </span>
                 </div>
 
-                <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                  <span className="text-xs text-slate-500 font-semibold">Doimiy o'rganish & yuksalish</span>
-                  <a
-                    href="#skills"
-                    className="inline-flex items-center gap-1 text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline"
+                <h3 className="text-2xl sm:text-4xl font-extrabold text-white leading-tight">
+                  Kino Sayti — Onlayn Filmlar, Seriallar va Treylerlar Portali
+                </h3>
+
+                <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
+                  Foydalanuvchilarga eng so'nggi premyeralar, reytingi baland filmlar va seriallarni qulay qidirish, janrlar bo'yicha saralash hamda HD sifatda treylerlarni ko'rish imkonini beruvchi zamonaviy multimedia platformasi.
+                </p>
+
+                {/* Features Checklist */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                  {[
+                    "Kino va seriallar keng katalogi",
+                    "Tezkor qidiruv va janrlar filtri",
+                    "HD treylerlar va to'liq ma'lumotlar",
+                    "100% Mobile & Desktop Responsive",
+                  ].map((feat, i) => (
+                    <div key={i} className="flex items-center gap-2 text-xs font-semibold text-slate-200">
+                      <CheckCircle2 size={16} className="text-rose-400 shrink-0" />
+                      <span>{feat}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Technologies */}
+                <div className="pt-2">
+                  <div className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
+                    Ishlatilgan Texnologiyalar:
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {["React.js", "JavaScript ES6+", "Tailwind CSS", "REST Movie API", "Vite"].map((t, idx) => (
+                      <span
+                        key={idx}
+                        className="px-3 py-1 rounded-xl text-xs font-bold bg-slate-800 text-slate-200 border border-white/10"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Git Clone Box */}
+                <div className="p-3.5 rounded-2xl bg-black/60 border border-white/15 flex items-center justify-between gap-3 text-xs">
+                  <div className="flex items-center gap-2 truncate">
+                    <Terminal size={15} className="text-rose-400 shrink-0" />
+                    <code className="text-rose-300 font-mono truncate">
+                      git clone git@github.com:alibektultayev-rgb/kino-sayt.git
+                    </code>
+                  </div>
+                  <button
+                    onClick={() => copyToClipboard("git clone git@github.com:alibektultayev-rgb/kino-sayt.git", "kino-clone")}
+                    className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-rose-600 text-white transition-colors shrink-0 flex items-center gap-1.5 font-semibold text-xs cursor-pointer"
                   >
-                    <span>Ko'nikmalarni ko'rish</span>
-                    <ArrowRight size={13} />
+                    {copiedId === "kino-clone" ? (
+                      <>
+                        <Check size={14} className="text-emerald-400" />
+                        <span>Nusxalandi!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy size={14} />
+                        <span>Nusxalash</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex flex-wrap items-center gap-3 pt-2">
+                  <a
+                    href="https://github.com/alibektultayev-rgb/kino-sayt"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="px-6 py-3 rounded-2xl bg-gradient-to-r from-rose-500 to-purple-600 hover:from-rose-400 hover:to-purple-500 text-white font-bold text-sm shadow-[0_0_20px_rgba(244,63,94,0.4)] flex items-center gap-2 transition-all cursor-pointer"
+                  >
+                    <GithubIcon size={17} />
+                    <span>GitHub Repozitoriy</span>
+                    <ArrowUpRight size={16} />
+                  </a>
+
+                  <a
+                    href="https://github.com/alibektultayev-rgb/kino-sayt"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="px-6 py-3 rounded-2xl glass-panel border border-white/15 hover:border-white/30 text-white font-bold text-sm flex items-center gap-2 transition-all cursor-pointer"
+                  >
+                    <Play size={16} className="text-rose-400 fill-rose-400" />
+                    <span>Jonli Demo</span>
                   </a>
                 </div>
               </div>
-            </div>
 
-          </div>
-        </div>
-      </section>
-
-      {/* 4. KO'NIKMALAR (SKILLS) */}
-      <section id="skills" className="py-20 relative z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200/60 dark:border-indigo-800/60 mb-3">
-              <Layers size={13} />
-              <span>Imkoniyatlar</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-              Professional Ko'nikmalarim
-            </h2>
-            <div className="w-16 h-1 bg-gradient-to-r from-indigo-500 to-pink-500 mx-auto mt-3 rounded-full"></div>
-            <p className="text-slate-600 dark:text-slate-400 mt-4 text-sm sm:text-base">
-              Veb-ishlab chiqish, kino platformalari va Telegram botlar yaratishda qo'llanadigan asosiy stek
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {USER_DATA.skills.map((skill, index) => (
-              <div
-                key={index}
-                className="bg-white dark:bg-slate-900/80 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800/80 shadow-sm hover:border-indigo-500/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
-              >
-                <div className="flex justify-between items-center mb-3">
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl">{skill.icon}</span>
-                    <div>
-                      <h4 className="font-bold text-sm sm:text-base text-slate-800 dark:text-slate-200 group-hover:text-indigo-500 transition-colors">
-                        {skill.name}
-                      </h4>
-                      <span className="text-[11px] font-semibold text-slate-400">
-                        {skill.category}
+              {/* Right Column: Visual Cinema Card Mockup */}
+              <div className="lg:col-span-5 flex justify-center">
+                <div className="w-full max-w-sm rounded-3xl bg-gradient-to-b from-slate-900 to-black p-5 border border-white/10 shadow-2xl space-y-4">
+                  
+                  {/* Simulated Movie Hero Banner */}
+                  <div className="h-48 rounded-2xl bg-gradient-to-br from-rose-900/50 via-purple-900/40 to-slate-900 p-4 flex flex-col justify-between relative overflow-hidden border border-rose-500/20">
+                    <div className="flex justify-between items-start">
+                      <span className="px-2.5 py-0.5 rounded-full bg-rose-500 text-white font-black text-[10px]">
+                        PREMYERA
+                      </span>
+                      <span className="flex items-center gap-1 text-[11px] font-bold text-amber-400 bg-black/60 px-2 py-0.5 rounded-full">
+                        ⭐ 9.8
                       </span>
                     </div>
+                    <div>
+                      <div className="text-xs text-rose-300 font-semibold uppercase tracking-wider">Top Kino</div>
+                      <div className="text-lg font-black text-white">Avatar: Suv Yo'li & Marvel</div>
+                    </div>
                   </div>
-                  <span className="text-xs font-extrabold px-2.5 py-1 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20">
-                    {skill.level}%
-                  </span>
-                </div>
-                
-                {/* Progress bar */}
-                <div className="w-full h-2.5 bg-slate-100 dark:bg-slate-800/90 rounded-full overflow-hidden p-0.5">
-                  <div
-                    className="h-full bg-gradient-to-r from-indigo-500 via-violet-500 to-pink-500 rounded-full transition-all duration-1000 ease-out"
-                    style={{ width: `${skill.level}%` }}
-                  ></div>
+
+                  {/* Simulated Search & Categories */}
+                  <div className="p-2.5 rounded-xl bg-slate-950 border border-white/10 text-xs text-slate-400 flex items-center gap-2">
+                    <span>🔍</span>
+                    <span>Qidiruv: "Kino nomi, janri..."</span>
+                  </div>
+
+                  {/* Simulated Genre Chips */}
+                  <div className="flex gap-1.5 flex-wrap">
+                    {["🎬 Barchasi", "💥 Jangari", "🍿 Fantastika", "🎭 Drama"].map((g, idx) => (
+                      <span
+                        key={idx}
+                        className={`text-[11px] font-bold px-2.5 py-1 rounded-lg ${
+                          idx === 0 ? "bg-rose-500 text-white" : "bg-slate-900 text-slate-400 border border-white/5"
+                        }`}
+                      >
+                        {g}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Simulated Movie Grid Items */}
+                  <div className="grid grid-cols-2 gap-2 pt-1">
+                    <div className="p-3 rounded-xl bg-slate-950 border border-white/5 space-y-1">
+                      <div className="w-full h-16 rounded-lg bg-rose-950/40 flex items-center justify-center text-rose-400">
+                        <Play size={22} />
+                      </div>
+                      <div className="text-xs font-bold text-white truncate">Qasoskorlar: Intiho</div>
+                      <div className="text-[10px] text-slate-400">Jangari • 2026</div>
+                    </div>
+                    <div className="p-3 rounded-xl bg-slate-950 border border-white/5 space-y-1">
+                      <div className="w-full h-16 rounded-lg bg-purple-950/40 flex items-center justify-center text-purple-400">
+                        <Play size={22} />
+                      </div>
+                      <div className="text-xs font-bold text-white truncate">Interstellar</div>
+                      <div className="text-[10px] text-slate-400">Fantastika • 2026</div>
+                    </div>
+                  </div>
+
                 </div>
               </div>
-            ))}
+
+            </div>
           </div>
 
         </div>
       </section>
 
-      {/* 5. LOYIHALARIM (PROJECTS) - KINO SAYT QO'SHILGAN & ZAMONAVIY DIZAYN */}
-      <section id="projects" className="py-20 bg-slate-100/70 dark:bg-slate-900/40 border-y border-slate-200/80 dark:border-slate-800/80 relative z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 6. BARCHA LOYIHALAR (PROJECTS GRID) */}
+      <section id="projects" className="py-20 relative z-10">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
           
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200/60 dark:border-indigo-800/60 mb-3">
-              <Briefcase size={13} />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-indigo-400 bg-indigo-950/50 border border-indigo-500/30 mb-3">
+              <Briefcase size={14} />
               <span>Portfolio</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-              Mening Loyihalarim
+            <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-white">
+              Barcha Loyihalarim
             </h2>
             <div className="w-16 h-1 bg-gradient-to-r from-indigo-500 to-pink-500 mx-auto mt-3 rounded-full"></div>
-            <p className="text-slate-600 dark:text-slate-400 mt-4 text-sm sm:text-base">
-              Har bir loyiha qulay dizayn, toza kod va amaliy natija berishga qaratilgan
+            <p className="text-slate-400 mt-4 text-sm sm:text-base">
+              Har bir loyiha yuqori sifat, toza kod va aniq natija berishga mo'ljallangan
             </p>
           </div>
 
-          {/* Filter Kategoriyalari */}
-          <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
+          {/* Interactive Category Filter */}
+          <div className="flex flex-wrap items-center justify-center gap-2.5 mb-12">
             {[
               { id: 'all', label: 'Barchasi', count: USER_DATA.projects.length },
-              { id: 'frontend', label: 'Frontend & Veb (Kino)', count: USER_DATA.projects.filter(p => p.category === 'frontend').length },
-              { id: 'bot', label: 'Telegram Botlar', count: USER_DATA.projects.filter(p => p.category === 'bot').length },
-              { id: 'cpp', label: 'C++ & Algoritmlar', count: USER_DATA.projects.filter(p => p.category === 'cpp').length },
+              { id: 'kino', label: 'Kino & Veb Platformalar', count: 2 },
+              { id: 'bot', label: 'Telegram Botlar', count: 1 },
+              { id: 'cpp', label: 'C++ & Algoritmlar', count: 1 },
             ].map(tab => (
               <button
                 key={tab.id}
-                onClick={() => setActiveProjectFilter(tab.id)}
-                className={`px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-2 ${
-                  activeProjectFilter === tab.id
-                    ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 scale-105'
-                    : 'bg-white dark:bg-slate-900/90 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200/80 dark:border-slate-800'
+                onClick={() => setActiveFilter(tab.id)}
+                className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-2 ${
+                  activeFilter === tab.id
+                    ? 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-[0_0_20px_rgba(99,102,241,0.4)] scale-105'
+                    : 'glass-panel text-slate-400 hover:text-white border border-white/10'
                 }`}
               >
                 <span>{tab.label}</span>
                 <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${
-                  activeProjectFilter === tab.id ? 'bg-white/20 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-500'
+                  activeFilter === tab.id ? 'bg-white/20 text-white' : 'bg-slate-800 text-slate-400'
                 }`}>
                   {tab.count}
                 </span>
@@ -773,127 +821,107 @@ export default function App() {
             ))}
           </div>
 
-          {/* Loyihalar Karti Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+          {/* Projects Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {filteredProjects.map((project) => {
-              const IconComponent = project.icon || Code2
-              const isKino = project.title.toLowerCase().includes('kino')
+              const Icon = project.icon
+              const isKino = project.id === 'kino-sayt'
 
               return (
                 <div
                   key={project.id}
-                  className={`rounded-3xl border overflow-hidden shadow-sm hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col group relative ${
+                  className={`rounded-3xl glass-panel border overflow-hidden shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col group ${
                     isKino
-                      ? 'bg-gradient-to-b from-indigo-950/20 via-slate-900/90 to-slate-950 border-indigo-500/50 dark:border-indigo-500/40 shadow-indigo-500/10'
-                      : 'bg-white dark:bg-slate-900/90 border-slate-200/80 dark:border-slate-800'
+                      ? 'border-rose-500/40 hover:border-rose-500/80 shadow-[0_0_30px_-5px_rgba(244,63,94,0.15)]'
+                      : 'border-white/10 hover:border-indigo-500/40'
                   }`}
                 >
-                  {/* Agar Kino Sayt bo'lsa yuqori neon chiziq */}
-                  {isKino && (
-                    <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-amber-400 via-indigo-500 to-pink-500"></div>
-                  )}
-
-                  {/* Loyiha sarlavha qismi / Header Mockup Banner */}
-                  <div className={`p-7 flex flex-col justify-between relative overflow-hidden border-b ${
+                  {/* Card Header Banner */}
+                  <div className={`p-6 sm:p-7 flex flex-col justify-between border-b border-white/10 relative overflow-hidden bg-gradient-to-br ${
                     isKino
-                      ? 'bg-gradient-to-br from-indigo-600/20 via-violet-600/15 to-pink-600/15 border-indigo-500/20'
-                      : 'bg-gradient-to-br from-indigo-500/10 via-slate-100 to-violet-500/5 dark:from-slate-800/40 dark:via-slate-900 dark:to-slate-800/20 border-slate-100 dark:border-slate-800'
+                      ? 'from-rose-950/40 via-purple-950/30 to-slate-950'
+                      : 'from-indigo-950/40 via-slate-900 to-slate-950'
                   }`}>
-                    
-                    {/* Yuqori qator: Badge & Katta Icon */}
-                    <div className="flex justify-between items-start mb-6">
-                      <div className="flex items-center gap-2">
-                        <span className={`text-xs font-extrabold px-3 py-1 rounded-xl border ${
-                          isKino
-                            ? 'bg-gradient-to-r from-pink-500/20 to-purple-500/20 text-pink-400 border-pink-500/30 shadow-sm'
-                            : 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20'
-                        }`}>
-                          {project.badge || project.status}
-                        </span>
-                        {isKino && (
-                          <span className="flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-xl bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30">
-                            <Flame size={12} className="animate-pulse" />
-                            <span>Tavsiya etiladi</span>
-                          </span>
-                        )}
-                      </div>
-
-                      <div className={`p-3 rounded-2xl ${
+                    <div className="flex justify-between items-start mb-4">
+                      <span className={`text-xs font-black px-3 py-1 rounded-xl border ${
                         isKino
-                          ? 'bg-pink-500/20 text-pink-400 border border-pink-500/30 group-hover:scale-110 group-hover:rotate-6'
-                          : 'bg-indigo-500/10 text-indigo-500 dark:text-indigo-400 group-hover:scale-110'
-                      } transition-transform duration-300`}>
-                        <IconComponent size={26} />
+                          ? 'bg-rose-500/20 text-rose-300 border-rose-500/30'
+                          : 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30'
+                      }`}>
+                        {project.badge}
+                      </span>
+                      <div className={`p-3 rounded-2xl ${
+                        isKino ? 'bg-rose-500/20 text-rose-400' : 'bg-indigo-500/20 text-indigo-400'
+                      } group-hover:scale-110 transition-transform`}>
+                        <Icon size={24} />
                       </div>
                     </div>
 
-                    <div>
-                      <h3 className="font-extrabold text-xl sm:text-2xl text-slate-900 dark:text-white tracking-tight group-hover:text-indigo-500 transition-colors">
-                        {project.title}
-                      </h3>
-                    </div>
+                    <h3 className="text-xl sm:text-2xl font-black text-white group-hover:text-indigo-400 transition-colors">
+                      {project.title}
+                    </h3>
                   </div>
 
-                  {/* Tavsif va texnologiyalar */}
-                  <div className="p-7 flex-1 flex flex-col justify-between space-y-6">
-                    <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed">
+                  {/* Card Body */}
+                  <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between space-y-6">
+                    <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
                       {project.description}
                     </p>
 
-                    <div className="space-y-5">
-                      {/* Texnologiyalar ro'yxati */}
+                    <div className="space-y-4">
+                      {/* Tech Chips */}
                       <div>
-                        <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
-                          Ishlatilgan texnologiyalar:
+                        <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">
+                          Texnologiyalar:
                         </div>
-                        <div className="flex flex-wrap gap-2">
-                          {project.technologies.map((tech, i) => (
+                        <div className="flex flex-wrap gap-1.5">
+                          {project.technologies.map((t, idx) => (
                             <span
-                              key={i}
-                              className="text-xs px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium border border-slate-200/60 dark:border-slate-700/60"
+                              key={idx}
+                              className="text-xs px-2.5 py-1 rounded-lg bg-slate-900/80 text-slate-300 border border-white/10 font-mono"
                             >
-                              {tech}
+                              {t}
                             </span>
                           ))}
                         </div>
                       </div>
 
-                      {/* Git clone buyrug'i agar mavjud bo'lsa */}
+                      {/* Git clone row */}
                       {project.gitClone && (
-                        <div className="p-3 rounded-2xl bg-slate-100 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800/80 flex items-center justify-between text-xs">
-                          <code className="text-slate-700 dark:text-indigo-300 font-mono truncate mr-2">
+                        <div className="p-2.5 rounded-xl bg-black/50 border border-white/10 flex items-center justify-between text-xs">
+                          <code className="text-slate-300 font-mono truncate mr-2 text-[11px]">
                             {project.gitClone}
                           </code>
                           <button
                             onClick={() => copyToClipboard(project.gitClone, project.id)}
-                            className="p-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-500 hover:text-indigo-500 transition-colors shrink-0"
-                            title="Git clone manzilini nusxalash"
+                            className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white transition-colors shrink-0 cursor-pointer"
+                            title="Nusxalash"
                           >
-                            {copiedClone === project.id ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
+                            {copiedId === project.id ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
                           </button>
                         </div>
                       )}
 
-                      {/* Havolalar & Tugmalar */}
-                      <div className="pt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-3">
+                      {/* Action Links */}
+                      <div className="pt-3 border-t border-white/10 flex items-center justify-between">
                         <a
                           href={project.github}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-slate-100 dark:bg-slate-800/90 text-slate-800 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                          className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-slate-300 hover:text-white transition-colors"
                         >
                           <GithubIcon size={16} />
-                          <span>GitHub Kod</span>
+                          <span>Kodni ko'rish</span>
                         </a>
 
                         <a
                           href={project.demo}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-gradient-to-r from-indigo-600 to-violet-600 text-white hover:from-indigo-500 hover:to-violet-500 shadow-md shadow-indigo-600/25 transition-all"
+                          className="inline-flex items-center gap-1 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-indigo-600 hover:bg-indigo-500 text-white shadow-md shadow-indigo-600/30 transition-all"
                         >
                           <span>Loyihani Ko'rish</span>
-                          <ArrowUpRight size={16} />
+                          <ArrowUpRight size={15} />
                         </a>
                       </div>
                     </div>
@@ -907,247 +935,373 @@ export default function App() {
         </div>
       </section>
 
-      {/* 6. TAJRIBA VA TA'LIM (TIMELINE) */}
-      <section id="experience" className="py-20 relative z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 7. BENTO GRID: "MEN HAQIMDA" (MODERN TECH BENTO STYLE) */}
+      <section id="about" className="py-20 relative z-10">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
           
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200/60 dark:border-indigo-800/60 mb-3">
-              <GraduationCap size={13} />
-              <span>Yo'l xaritasi</span>
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-indigo-400 bg-indigo-950/50 border border-indigo-500/30 mb-3">
+              <User size={14} />
+              <span>Tanishuv</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-              Tajriba va Ta'lim
+            <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-white">
+              Men Haqimda & Yondashuv
             </h2>
-            <div className="w-16 h-1 bg-gradient-to-r from-indigo-500 to-pink-500 mx-auto mt-3 rounded-full"></div>
-          </div>
-
-          <div className="max-w-3xl mx-auto relative border-l-2 border-indigo-200 dark:border-indigo-900/60 pl-6 sm:pl-10 space-y-12">
-            {USER_DATA.timeline.map((item, index) => (
-              <div key={index} className="relative group">
-                {/* Nuqta/Icon */}
-                <div className="absolute -left-[35px] sm:-left-[51px] top-0 w-10 h-10 rounded-2xl bg-white dark:bg-slate-900 border-2 border-indigo-600 flex items-center justify-center text-indigo-600 shadow-lg group-hover:scale-110 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">
-                  {item.type === 'work' ? <Briefcase size={16} /> : <GraduationCap size={16} />}
-                </div>
-
-                {/* Kontent kartasi */}
-                <div className="bg-white dark:bg-slate-900/80 p-7 rounded-3xl border border-slate-200/80 dark:border-slate-800/80 shadow-sm hover:border-indigo-500/40 transition-all">
-                  <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-                    <span className="text-xs font-extrabold px-3 py-1 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20">
-                      {item.period}
-                    </span>
-                    <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                      {item.type === 'work' ? "Ish faoliyati" : "Ta'lim & Amaliyot"}
-                    </span>
-                  </div>
-
-                  <h3 className="text-xl font-bold text-slate-900 dark:text-white">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm font-semibold text-indigo-600 dark:text-indigo-400 mb-3">
-                    {item.organization}
-                  </p>
-                  <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
-                    {item.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-        </div>
-      </section>
-
-      {/* 7. SERTIFIKATLAR VA YUTUQLAR */}
-      <section className="py-16 bg-slate-100/70 dark:bg-slate-900/40 border-y border-slate-200/80 dark:border-slate-800/80 relative z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200/60 dark:border-indigo-800/60 mb-3">
-              <Award size={13} />
-              <span>Malaka</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-              Sertifikatlar va Yutuqlar
-            </h2>
-            <div className="w-16 h-1 bg-gradient-to-r from-indigo-500 to-pink-500 mx-auto mt-3 rounded-full"></div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-            {USER_DATA.certificates.map((cert, idx) => (
-              <div
-                key={idx}
-                className="bg-white dark:bg-slate-900/80 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800/80 flex items-start gap-4 shadow-sm hover:border-indigo-500/50 hover:shadow-lg transition-all"
-              >
-                <div className="p-3.5 rounded-2xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 shrink-0">
-                  <Award size={26} />
-                </div>
-                <div>
-                  <span className="text-xs font-bold px-2.5 py-0.5 rounded-lg bg-indigo-500/10 text-indigo-600 dark:text-indigo-400">
-                    {cert.year} • {cert.badge}
-                  </span>
-                  <h4 className="font-bold text-lg text-slate-900 dark:text-white mt-2">
-                    {cert.title}
-                  </h4>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                    Tashkilot: {cert.issuer}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-        </div>
-      </section>
-
-      {/* 8. ALOQA (CONTACT) */}
-      <section id="contact" className="py-20 relative z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200/60 dark:border-indigo-800/60 mb-3">
-              <Send size={13} />
-              <span>Aloqa</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-              Men Bilan Bog'laning
-            </h2>
-            <div className="w-16 h-1 bg-gradient-to-r from-indigo-500 to-pink-500 mx-auto mt-3 rounded-full"></div>
-            <p className="text-slate-600 dark:text-slate-400 mt-4 text-sm sm:text-base">
-              Yangi veb-loyihalar, kino platformasi yoki Telegram botlar buyurtmasi bo'yicha bog'lanishingiz mumkin
+            <div className="w-16 h-1 bg-gradient-to-r from-indigo-500 to-pink-500 mx-auto mt-4 rounded-full"></div>
+            <p className="text-slate-400 mt-4 text-sm sm:text-base">
+              Har bir loyiha va vazifaga chuqur muhandislik yondashuvi
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 max-w-5xl mx-auto">
+          {/* Bento Grid Container */}
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
             
-            {/* Aloqa ma'lumotlari */}
-            <div className="lg:col-span-5 space-y-6">
-              <div className="bg-white dark:bg-slate-900/80 p-8 rounded-3xl border border-slate-200/80 dark:border-slate-800/80 shadow-sm space-y-6">
-                <div>
-                  <h3 className="text-xl font-bold text-slate-900 dark:text-white">
-                    To'g'ridan-to'g'ri Aloqa
-                  </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                    Har doim muloqotga va yangi imkoniyatlarga tayyorman
-                  </p>
+            {/* Bento 1: Developer Code Snippet Card (Wide 8-col) */}
+            <div className="md:col-span-8 glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 flex flex-col justify-between space-y-6">
+              <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                <div className="flex items-center gap-2">
+                  <span className="w-3 h-3 rounded-full bg-rose-500"></span>
+                  <span className="w-3 h-3 rounded-full bg-amber-500"></span>
+                  <span className="w-3 h-3 rounded-full bg-emerald-500"></span>
+                  <span className="ml-2 text-xs font-mono text-slate-400">developer.ts</span>
                 </div>
+                <span className="text-xs font-bold text-indigo-400">Alibek Tultayev</span>
+              </div>
 
-                <div className="space-y-4">
-                  {/* Telegram */}
-                  <a
-                    href={USER_DATA.personal.telegram}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="flex items-start gap-4 p-3 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-800/60 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 group transition-all"
-                  >
-                    <div className="p-3 rounded-xl bg-sky-500/10 text-sky-500 group-hover:bg-[#229ED9] group-hover:text-white transition-colors shrink-0">
-                      <TelegramIcon size={20} />
-                    </div>
-                    <div>
-                      <div className="text-xs text-slate-400">Telegram</div>
-                      <div className="font-bold text-sm text-slate-900 dark:text-white">@alibektultayev</div>
-                    </div>
-                  </a>
+              <div className="font-mono text-xs sm:text-sm text-slate-300 space-y-1.5 leading-relaxed overflow-x-auto">
+                <div><span className="text-pink-400">const</span> <span className="text-blue-400">dasturchi</span> = &#123;</div>
+                <div className="pl-4"><span className="text-slate-400">ism:</span> <span className="text-amber-300">"Alibek Tultayev"</span>,</div>
+                <div className="pl-4"><span className="text-slate-400">mutaxassislik:</span> <span className="text-amber-300">"Frontend & Telegram Bot Dasturchi"</span>,</div>
+                <div className="pl-4"><span className="text-slate-400">tajribaBosqichi:</span> <span className="text-amber-300">"IT Live o'quv markazi va amaliy loyihalar"</span>,</div>
+                <div className="pl-4"><span className="text-slate-400">yondashuv:</span> <span className="text-emerald-400">["Toza kod", "Yuqori tezlik", "Zamonaviy UI/UX", "24/7 Botlar"]</span>,</div>
+                <div className="pl-4"><span className="text-slate-400">maqsad:</span> <span className="text-amber-300">"Full Stack va yuqori darajali xavfsiz tizimlar mutaxassisi"</span></div>
+                <div>&#125;;</div>
+              </div>
 
-                  {/* Telefon */}
-                  <a
-                    href="tel:+998992800036"
-                    className="flex items-start gap-4 p-3 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-800/60 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 group transition-all"
-                  >
-                    <div className="p-3 rounded-xl bg-emerald-500/10 text-emerald-500 group-hover:bg-emerald-600 group-hover:text-white transition-colors shrink-0">
-                      <Phone size={20} />
-                    </div>
-                    <div>
-                      <div className="text-xs text-slate-400">Telefon</div>
-                      <div className="font-bold text-sm text-slate-900 dark:text-white">{USER_DATA.personal.phone}</div>
-                    </div>
-                  </a>
+              <p className="text-sm sm:text-base text-slate-300 leading-relaxed pt-2 border-t border-white/10">
+                Salom! Men Alibek Tultayev. 2026-yildan beri dasturlash sohasini qunt bilan o'rganib kelmoqdaman. Dastlab C++ tili va algoritmik poydevordan boshlab, hozirda zamonaviy React, kino platformalari va avtomatlashtirilgan Telegram botlar yaratishda faoliyat yuritmoqdaman.
+              </p>
+            </div>
 
-                  {/* Email */}
-                  <a
-                    href={`mailto:${USER_DATA.personal.email}`}
-                    className="flex items-start gap-4 p-3 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-800/60 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 group transition-all"
-                  >
-                    <div className="p-3 rounded-xl bg-indigo-500/10 text-indigo-500 group-hover:bg-indigo-600 group-hover:text-white transition-colors shrink-0">
-                      <Mail size={20} />
-                    </div>
-                    <div>
-                      <div className="text-xs text-slate-400">Email</div>
-                      <div className="font-bold text-sm text-slate-900 dark:text-white">{USER_DATA.personal.email}</div>
-                    </div>
-                  </a>
-
-                  {/* Manzil */}
-                  <div className="flex items-start gap-4 p-3 text-slate-600 dark:text-slate-300">
-                    <div className="p-3 rounded-xl bg-violet-500/10 text-violet-500 shrink-0">
-                      <MapPin size={20} />
-                    </div>
-                    <div>
-                      <div className="text-xs text-slate-400">Manzil</div>
-                      <div className="font-bold text-sm text-slate-900 dark:text-white">{USER_DATA.personal.location}</div>
-                    </div>
-                  </div>
+            {/* Bento 2: Fast Stats (4-col) */}
+            <div className="md:col-span-4 glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 flex flex-col justify-between space-y-6">
+              <div className="space-y-2">
+                <div className="w-10 h-10 rounded-2xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold">
+                  <ShieldCheck size={22} />
                 </div>
+                <h4 className="text-lg font-bold text-white">Ishonchli Hamkor</h4>
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  Har bir loyiha muddatida va mijoz talabiga mos yuqori standartlarda amalga oshiriladi.
+                </p>
+              </div>
 
-                {/* Tarmoqlar tugmalari */}
-                <div className="pt-5 border-t border-slate-100 dark:border-slate-800/80">
-                  <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">
-                    Profil Havolalari
-                  </div>
-                  <div className="flex gap-2.5">
-                    <a
-                      href={USER_DATA.personal.telegram}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="p-3 rounded-2xl border border-slate-200 dark:border-slate-800 hover:bg-[#229ED9] hover:text-white hover:border-[#229ED9] transition-all"
-                      title="Telegram"
-                    >
-                      <TelegramIcon size={18} />
-                    </a>
-                    <a
-                      href={USER_DATA.personal.github}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="p-3 rounded-2xl border border-slate-200 dark:border-slate-800 hover:bg-slate-900 hover:text-white dark:hover:bg-indigo-600 hover:border-indigo-600 transition-all"
-                      title="GitHub"
-                    >
-                      <GithubIcon size={18} />
-                    </a>
-                    <a
-                      href={USER_DATA.personal.instagram}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="p-3 rounded-2xl border border-slate-200 dark:border-slate-800 hover:bg-pink-600 hover:text-white hover:border-pink-600 transition-all"
-                      title="Instagram"
-                    >
-                      <InstagramIcon size={18} />
-                    </a>
-                  </div>
+              <div className="space-y-3 pt-2">
+                <div className="p-3 rounded-2xl bg-slate-900 border border-white/5 flex items-center justify-between">
+                  <span className="text-xs text-slate-300 font-semibold">Frontend Sifati</span>
+                  <span className="text-xs font-black text-emerald-400">100%</span>
+                </div>
+                <div className="p-3 rounded-2xl bg-slate-900 border border-white/5 flex items-center justify-between">
+                  <span className="text-xs text-slate-300 font-semibold">Botlar Barqarorligi</span>
+                  <span className="text-xs font-black text-indigo-400">24/7 Online</span>
+                </div>
+                <div className="p-3 rounded-2xl bg-slate-900 border border-white/5 flex items-center justify-between">
+                  <span className="text-xs text-slate-300 font-semibold">Kod Xavfsizligi</span>
+                  <span className="text-xs font-black text-purple-400">Toza & Optimallashtirilgan</span>
                 </div>
               </div>
             </div>
 
-            {/* Aloqa Formasi */}
+            {/* Bento 3: Kuchli Tomonlarim (Wide 12-col) */}
+            <div className="md:col-span-12 glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 space-y-5">
+              <h4 className="text-lg font-bold text-white flex items-center gap-2">
+                <Sparkles size={18} className="text-indigo-400" />
+                <span>Nima Uchun Aynan Meni Tanlashadi?</span>
+              </h4>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {[
+                  {
+                    title: "Kino & Multimedia Saytlar",
+                    desc: "Filmlar, seriallar va audio-vizual veb-portallarni noldan yaratish tajribasi",
+                    icon: Film,
+                    color: "text-rose-400"
+                  },
+                  {
+                    title: "Telegram Botlar & Aiogram",
+                    desc: "Buyurtmalar qabul qiluvchi, to'lov tizimlariga ega avtomatlashtirilgan botlar",
+                    icon: Bot,
+                    color: "text-emerald-400"
+                  },
+                  {
+                    title: "C++ & Algoritmlar",
+                    desc: "Dasturlashning fundamental mantiqiy asoslari va toza arxitektura bilimlari",
+                    icon: Terminal,
+                    color: "text-amber-400"
+                  },
+                  {
+                    title: "Yuqori Tezlik & Optimallashtirish",
+                    desc: "Vite va React yordamida tez yuklanuvchi, engil va sifatli veb-sahifalar",
+                    icon: Zap,
+                    color: "text-cyan-400"
+                  },
+                  {
+                    title: "Moslashuvchan Dizayn (Mobile/Desktop)",
+                    desc: "Smartfon, planshet va kompyuter ekranlarida birdek chiroyli ko'rinish",
+                    icon: Monitor,
+                    color: "text-purple-400"
+                  },
+                  {
+                    title: "Doimiy Aloqa & Qo'llab-quvvatlash",
+                    desc: "Loyiha topshirilgandan keyin ham ishonchli muloqot va yangilashlar",
+                    icon: MessageSquare,
+                    color: "text-sky-400"
+                  }
+                ].map((item, idx) => {
+                  const ItemIcon = item.icon
+                  return (
+                    <div
+                      key={idx}
+                      className="p-4 rounded-2xl bg-slate-900/60 border border-white/5 hover:border-indigo-500/30 transition-all space-y-2"
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <ItemIcon size={18} className={item.color} />
+                        <h5 className="font-bold text-sm text-white">{item.title}</h5>
+                      </div>
+                      <p className="text-xs text-slate-400 leading-relaxed">{item.desc}</p>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* 8. KO'NIKMALAR (SKILLS MATRIX) */}
+      <section id="skills" className="py-20 relative z-10">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-indigo-400 bg-indigo-950/50 border border-indigo-500/30 mb-3">
+              <Layers size={14} />
+              <span>Imkoniyatlar</span>
+            </div>
+            <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-white">
+              Texnologik Ko'nikmalarim
+            </h2>
+            <div className="w-16 h-1 bg-gradient-to-r from-indigo-500 to-pink-500 mx-auto mt-4 rounded-full"></div>
+            <p className="text-slate-400 mt-4 text-sm sm:text-base">
+              Veb-ilovalarni yaratish va avtomatlashtirishda qo'llanadigan asosiy stek
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {USER_DATA.skills.map((skill, index) => (
+              <div
+                key={index}
+                className="glass-panel p-5 rounded-3xl border border-white/10 hover:border-indigo-500/40 hover:-translate-y-1 transition-all duration-300 shadow-md group"
+              >
+                <div className="flex justify-between items-center mb-3">
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">{skill.icon}</span>
+                    <div>
+                      <h4 className="font-bold text-sm sm:text-base text-white group-hover:text-indigo-400 transition-colors">
+                        {skill.name}
+                      </h4>
+                      <span className="text-[11px] font-semibold text-slate-400">
+                        {skill.category}
+                      </span>
+                    </div>
+                  </div>
+                  <span className="text-xs font-black px-2.5 py-1 rounded-xl bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">
+                    {skill.level}%
+                  </span>
+                </div>
+                
+                {/* Progress bar */}
+                <div className="w-full h-2 bg-slate-900 rounded-full overflow-hidden p-0.5 border border-white/5">
+                  <div
+                    className={`h-full bg-gradient-to-r ${skill.color} rounded-full transition-all duration-1000 ease-out`}
+                    style={{ width: `${skill.level}%` }}
+                  ></div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* 9. TAJRIBA VA MALAKA (TIMELINE & AWARDS) */}
+      <section className="py-20 relative z-10">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+            
+            {/* Timeline (7-col) */}
+            <div className="lg:col-span-7 space-y-6">
+              <div className="flex items-center gap-2 text-indigo-400 text-xs font-bold uppercase tracking-wider mb-2">
+                <GraduationCap size={16} />
+                <span>Ta'lim & Tajriba</span>
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-black text-white">
+                Dasturlash Yo'lim
+              </h3>
+
+              <div className="space-y-6 pt-2">
+                {USER_DATA.timeline.map((item, index) => (
+                  <div key={index} className="glass-panel p-6 rounded-3xl border border-white/10 space-y-3">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <span className="text-xs font-black px-3 py-1 rounded-xl bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                        {item.period}
+                      </span>
+                      <span className="text-xs text-slate-400 font-semibold">{item.organization}</span>
+                    </div>
+                    <h4 className="text-lg font-bold text-white">{item.title}</h4>
+                    <p className="text-sm text-slate-300 leading-relaxed">{item.description}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Certificates (5-col) */}
+            <div className="lg:col-span-5 space-y-6">
+              <div className="flex items-center gap-2 text-pink-400 text-xs font-bold uppercase tracking-wider mb-2">
+                <Award size={16} />
+                <span>Sertifikatlar</span>
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-black text-white">
+                Yutuq va Malakalar
+              </h3>
+
+              <div className="space-y-4 pt-2">
+                {USER_DATA.certificates.map((cert, idx) => (
+                  <div key={idx} className="glass-panel p-5 rounded-3xl border border-white/10 flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-500/20 to-pink-500/20 text-pink-400 flex items-center justify-center font-bold shrink-0 border border-pink-500/30">
+                      <Award size={24} />
+                    </div>
+                    <div>
+                      <div className="text-[11px] font-bold text-indigo-400">{cert.year} • {cert.badge}</div>
+                      <h5 className="font-bold text-white text-base">{cert.title}</h5>
+                      <p className="text-xs text-slate-400 mt-0.5">{cert.issuer}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* 10. ALOQA (CONTACT SECTION) */}
+      <section id="contact" className="py-20 relative z-10">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-indigo-400 bg-indigo-950/50 border border-indigo-500/30 mb-3">
+              <Send size={14} />
+              <span>Aloqa</span>
+            </div>
+            <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-white">
+              Men Bilan Bog'laning
+            </h2>
+            <div className="w-16 h-1 bg-gradient-to-r from-indigo-500 to-pink-500 mx-auto mt-4 rounded-full"></div>
+            <p className="text-slate-400 mt-4 text-sm sm:text-base">
+              Yangi loyihalar, kino platformasi yoki Telegram botlar buyurtmasi bo'yicha bog'lanishingiz mumkin
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            {/* Left Contact Cards (5-col) */}
+            <div className="lg:col-span-5 space-y-4">
+              
+              {/* Special Direct Telegram Card */}
+              <a
+                href={USER_DATA.personal.telegram}
+                target="_blank"
+                rel="noreferrer"
+                className="block p-6 rounded-3xl bg-gradient-to-br from-sky-600/30 via-blue-900/40 to-slate-900 border border-sky-500/40 shadow-[0_0_30px_rgba(14,165,233,0.2)] hover:border-sky-400 hover:scale-[1.02] transition-all group"
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <div className="p-3 rounded-2xl bg-sky-500 text-white shadow-lg shadow-sky-500/40">
+                    <TelegramIcon size={24} />
+                  </div>
+                  <span className="text-xs font-bold px-3 py-1 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30">
+                    Eng Tezkor Aloqa ⚡
+                  </span>
+                </div>
+                <h4 className="text-lg font-black text-white group-hover:text-sky-300 transition-colors">
+                  Telegram orqali yozish
+                </h4>
+                <p className="text-xs text-slate-300 mt-1">
+                  Har qanday savol yoki loyiha bo'yicha to'g'ridan-to'g'ri bog'laning: <strong className="text-white">@alibektultayev</strong>
+                </p>
+              </a>
+
+              {/* Phone Card */}
+              <a
+                href="tel:+998992800036"
+                className="glass-panel p-5 rounded-3xl border border-white/10 flex items-center gap-4 hover:border-emerald-500/40 transition-all group"
+              >
+                <div className="p-3 rounded-2xl bg-emerald-500/10 text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white transition-colors">
+                  <Phone size={20} />
+                </div>
+                <div>
+                  <div className="text-xs text-slate-400">Telefon raqam</div>
+                  <div className="text-sm font-bold text-white">{USER_DATA.personal.phone}</div>
+                </div>
+              </a>
+
+              {/* Email Card */}
+              <a
+                href={`mailto:${USER_DATA.personal.email}`}
+                className="glass-panel p-5 rounded-3xl border border-white/10 flex items-center gap-4 hover:border-indigo-500/40 transition-all group"
+              >
+                <div className="p-3 rounded-2xl bg-indigo-500/10 text-indigo-400 group-hover:bg-indigo-500 group-hover:text-white transition-colors">
+                  <Mail size={20} />
+                </div>
+                <div>
+                  <div className="text-xs text-slate-400">Elektron pochta</div>
+                  <div className="text-sm font-bold text-white">{USER_DATA.personal.email}</div>
+                </div>
+              </a>
+
+              {/* Location */}
+              <div className="glass-panel p-5 rounded-3xl border border-white/10 flex items-center gap-4">
+                <div className="p-3 rounded-2xl bg-violet-500/10 text-violet-400">
+                  <MapPin size={20} />
+                </div>
+                <div>
+                  <div className="text-xs text-slate-400">Manzil</div>
+                  <div className="text-sm font-bold text-white">{USER_DATA.personal.location}</div>
+                </div>
+              </div>
+
+            </div>
+
+            {/* Right Contact Form (7-col) */}
             <div className="lg:col-span-7">
-              <div className="bg-white dark:bg-slate-900/80 p-8 rounded-3xl border border-slate-200/80 dark:border-slate-800/80 shadow-sm">
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
+              <div className="glass-panel p-7 sm:p-8 rounded-3xl border border-white/10 shadow-2xl">
+                <h3 className="text-xl font-bold text-white mb-2">
                   Xabar Yuborish
                 </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mb-6">
+                <p className="text-xs text-slate-400 mb-6">
                   Quyidagi formani to'ldiring, xabaringizga tez orada javob beraman
                 </p>
 
                 {formSubmitted ? (
                   <div className="p-8 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-center space-y-3">
-                    <CheckCircle2 size={42} className="text-emerald-500 mx-auto" />
-                    <h4 className="font-bold text-lg text-emerald-800 dark:text-emerald-300">Xabaringiz qabul qilindi!</h4>
-                    <p className="text-xs text-emerald-700 dark:text-emerald-400">Tez orada siz bilan bog'lanaman. Rahmat!</p>
+                    <CheckCircle2 size={42} className="text-emerald-400 mx-auto" />
+                    <h4 className="font-bold text-lg text-white">Xabaringiz muvaffaqiyatli qabul qilindi!</h4>
+                    <p className="text-xs text-slate-300">Tez orada siz bilan bog'lanaman. Rahmat!</p>
                   </div>
                 ) : (
                   <form onSubmit={handleFormSubmit} className="space-y-4">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5 uppercase tracking-wider">
+                        <label className="block text-xs font-bold text-slate-300 mb-1.5 uppercase tracking-wider">
                           Ismingiz
                         </label>
                         <input
@@ -1155,13 +1309,13 @@ export default function App() {
                           name="name"
                           required
                           value={formData.name}
-                          onChange={handleInputChange}
-                          placeholder="Masalan: Aziz"
-                          className="w-full px-4 py-3 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm transition-all shadow-inner"
+                          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                          placeholder="Ismingiz"
+                          className="w-full px-4 py-3 rounded-2xl bg-slate-900 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 text-sm transition-all"
                         />
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5 uppercase tracking-wider">
+                        <label className="block text-xs font-bold text-slate-300 mb-1.5 uppercase tracking-wider">
                           Email manzilingiz
                         </label>
                         <input
@@ -1169,15 +1323,15 @@ export default function App() {
                           name="email"
                           required
                           value={formData.email}
-                          onChange={handleInputChange}
-                          placeholder="aziz@example.com"
-                          className="w-full px-4 py-3 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm transition-all shadow-inner"
+                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                          placeholder="nom@example.com"
+                          className="w-full px-4 py-3 rounded-2xl bg-slate-900 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 text-sm transition-all"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5 uppercase tracking-wider">
+                      <label className="block text-xs font-bold text-slate-300 mb-1.5 uppercase tracking-wider">
                         Mavzu
                       </label>
                       <input
@@ -1185,14 +1339,14 @@ export default function App() {
                         name="subject"
                         required
                         value={formData.subject}
-                        onChange={handleInputChange}
+                        onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                         placeholder="Loyiha buyurtmasi / Hamkorlik"
-                        className="w-full px-4 py-3 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm transition-all shadow-inner"
+                        className="w-full px-4 py-3 rounded-2xl bg-slate-900 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 text-sm transition-all"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5 uppercase tracking-wider">
+                      <label className="block text-xs font-bold text-slate-300 mb-1.5 uppercase tracking-wider">
                         Xabar matni
                       </label>
                       <textarea
@@ -1200,17 +1354,17 @@ export default function App() {
                         rows="4"
                         required
                         value={formData.message}
-                        onChange={handleInputChange}
-                        placeholder="Loyiha talablari yoki taklifingiz haqida yozing..."
-                        className="w-full px-4 py-3 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm transition-all resize-none shadow-inner"
+                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                        placeholder="Loyiha haqida yoki taklifingizni yozing..."
+                        className="w-full px-4 py-3 rounded-2xl bg-slate-900 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 text-sm transition-all resize-none"
                       ></textarea>
                     </div>
 
                     <button
                       type="submit"
-                      className="w-full py-4 rounded-2xl bg-gradient-to-r from-indigo-600 via-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-bold shadow-xl shadow-indigo-600/25 hover:shadow-indigo-600/40 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                      className="w-full py-4 rounded-2xl bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500 hover:from-indigo-400 hover:to-pink-400 text-white font-bold text-sm shadow-[0_0_25px_rgba(99,102,241,0.4)] hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 cursor-pointer"
                     >
-                      <Send size={17} />
+                      <Send size={16} />
                       <span>Xabarni yuborish</span>
                     </button>
                   </form>
@@ -1222,34 +1376,43 @@ export default function App() {
         </div>
       </section>
 
-      {/* 9. FOOTER */}
-      <footer className="py-10 border-t border-slate-200/80 dark:border-slate-800/80 bg-white/70 dark:bg-[#060910] backdrop-blur-md relative z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-xs text-slate-500 dark:text-slate-400">
+      {/* 11. FOOTER */}
+      <footer className="py-12 border-t border-white/10 bg-slate-950/80 backdrop-blur-xl relative z-10">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-6 text-xs text-slate-400">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 to-pink-500 flex items-center justify-center text-white font-black text-sm">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-500 to-pink-500 flex items-center justify-center text-white font-black text-sm shadow-md">
               A
             </div>
             <div>
-              © {new Date().getFullYear()} <strong className="text-slate-800 dark:text-slate-200">{USER_DATA.personal.name}</strong>. Barcha huquqlar himoyalangan.
+              © {new Date().getFullYear()} <strong className="text-white">{USER_DATA.personal.name}</strong>. Barcha huquqlar himoyalangan.
             </div>
           </div>
           
           <div className="flex items-center gap-6">
-            <a href="#home" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-medium">
-              Bosh sahifa
-            </a>
-            <a href="#projects" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-medium">
-              Loyihalar
-            </a>
-            <a href="#contact" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-medium">
-              Aloqa
-            </a>
-            <a href="#home" className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-semibold">
+            <a href="#home" className="hover:text-white transition-colors">Bosh sahifa</a>
+            <a href="#featured-kino" className="hover:text-white transition-colors">Kino Sayt</a>
+            <a href="#projects" className="hover:text-white transition-colors">Loyihalar</a>
+            <a href="#contact" className="hover:text-white transition-colors">Aloqa</a>
+            <a href="#home" className="px-3 py-1.5 rounded-xl bg-slate-900 border border-white/10 text-slate-300 hover:text-white transition-colors">
               Yuqoriga ↑
             </a>
           </div>
         </div>
       </footer>
+
+      {/* 12. FLOATING TELEGRAM QUICK BUTTON */}
+      <a
+        href={USER_DATA.personal.telegram}
+        target="_blank"
+        rel="noreferrer"
+        className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-gradient-to-tr from-[#229ED9] to-sky-400 text-white shadow-[0_0_25px_rgba(34,158,217,0.6)] hover:scale-110 hover:shadow-[0_0_35px_rgba(34,158,217,0.9)] transition-all flex items-center gap-2 group cursor-pointer"
+        title="Telegram orqali yozish"
+      >
+        <TelegramIcon size={22} />
+        <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-300 text-xs font-bold">
+          Telegramda muloqot
+        </span>
+      </a>
 
     </div>
   )
